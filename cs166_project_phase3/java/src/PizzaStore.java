@@ -358,7 +358,7 @@ public class PizzaStore {
       try {
          Scanner scanner = new Scanner(System.in);
          System.out.println("Enter username: ");
-         String username = scanner.nextLine();
+         String login = scanner.nextLine();
         
          System.out.println("Enter password: ");
          String password = scanner.nextLine();
@@ -366,7 +366,7 @@ public class PizzaStore {
          System.out.println("Enter phone number: ");
          String phoneNum = scanner.nextLine();
 
-         String query = "INSERT INTO users (username, password, phoneNum, role, favoriteItem) VALUES ('" + username + "', '" + password + "', '" + phoneNum + "', 'customer', NULL);";
+         String query = "INSERT INTO users (login, password, role, favoriteItems, phoneNum) VALUES ('" + login + "', '" + password + "', 'customer', NULL, '" + phoneNum + "');";
       
          esql.executeUpdate(query);
          System.out.println("User created successfully!");
@@ -386,23 +386,23 @@ public class PizzaStore {
          Scanner scanner = new Scanner(System.in);
 
          System.out.println("Enter username: ");
-         String username = scanner.nextLine();
+         String login = scanner.nextLine();
 
          System.out.println("Enter password: ");
          String password = scanner.nextLine();
 
-         String query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';";
+         String query = "SELECT * FROM users WHERE login = '" + login + "' AND password = '" + password + "';";
          int userCount = esql.executeQuery(query);
 
-         if (userCount == 1) {
+         if (userCount > 0) {
             System.out.println("Logged in successfully!");
-            return username;
+            return login;
          } else {
             System.out.println("Invalid username or password");
             return null;
          }
       }
-      catch {
+      catch (Exception e) {
          System.err.println("Error - Unable to log in");
          return null;
       }
@@ -410,7 +410,30 @@ public class PizzaStore {
 
 // Rest of the functions definition go in here
 
-   public static void viewProfile(PizzaStore esql) {}
+   public static void viewProfile(PizzaStore esql) {
+      try {
+         Scanner scanner = new Scanner(System.in);
+         System.out.println("Enter username: ");
+         String login = scanner.nextLine();
+         String query = "SELECT login, phoneNum, role, favoriteItems FROM users WHERE login = '" + login + "';";
+         List<List<String>> result = esql.executeQueryAndReturnResult(query);
+
+         if (result.isEmpty()) {
+            System.out.println("User not found");
+            return;
+         }
+
+         System.out.println("Username: " + result.get(0));
+         System.out.println("Phone Number: " + result.get(1));
+         System.out.println("Role: " + result.get(2));
+         System.out.println("Favorite Items: " + result.get(3) == null ? "None" : result.get(3));
+      
+      } 
+
+      catch (Exception e) {
+         System.out.println("Error: Unable to retrieve profile.");
+      }
+   }
    public static void updateProfile(PizzaStore esql) {}
    public static void viewMenu(PizzaStore esql) {}
    public static void placeOrder(PizzaStore esql) {}
