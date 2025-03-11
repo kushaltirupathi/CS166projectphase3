@@ -358,7 +358,7 @@ public class PizzaStore {
       try {
          Scanner scanner = new Scanner(System.in);
          System.out.println("Enter username: ");
-         String username = scanner.nextLine();
+         String login = scanner.nextLine();
         
          System.out.println("Enter password: ");
          String password = scanner.nextLine();
@@ -366,7 +366,7 @@ public class PizzaStore {
          System.out.println("Enter phone number: ");
          String phoneNum = scanner.nextLine();
 
-         String query = "INSERT INTO users (username, password, phoneNum, role, favoriteItem) VALUES ('" + username + "', '" + password + "', '" + phoneNum + "', 'customer', NULL);";
+         String query = "INSERT INTO users (login, password, role, favoriteItems, phoneNum) VALUES ('" + login + "', '" + password + "', 'customer', NULL, '" + phoneNum + "');";
       
          esql.executeUpdate(query);
          System.out.println("User created successfully!");
@@ -386,17 +386,17 @@ public class PizzaStore {
          Scanner scanner = new Scanner(System.in);
 
          System.out.println("Enter username: ");
-         String username = scanner.nextLine();
+         String login = scanner.nextLine();
 
          System.out.println("Enter password: ");
          String password = scanner.nextLine();
 
-         String query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';";
+         String query = "SELECT * FROM users WHERE login = '" + login + "' AND password = '" + password + "';";
          int userCount = esql.executeQuery(query);
 
-         if (userCount == 1) {
+         if (userCount > 0) {
             System.out.println("Logged in successfully!");
-            return username;
+            return login;
          } else {
             System.out.println("Invalid username or password");
             return null;
