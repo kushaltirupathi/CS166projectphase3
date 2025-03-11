@@ -423,10 +423,10 @@ public class PizzaStore {
             return;
          }
 
-         System.out.println("Username: " + result.get(0));
-         System.out.println("Phone Number: " + result.get(1));
-         System.out.println("Role: " + result.get(2));
-         System.out.println("Favorite Items: " + result.get(3) == null ? "None" : result.get(3));
+         System.out.println("Username: " + result.get(0).get(0));
+         System.out.println("Phone Number: " + result.get(0).get(1));
+         System.out.println("Role: " + result.get(0).get(2));
+         System.out.println("Favorite Items: " + result.get(0).get(3));
       
       } 
 
