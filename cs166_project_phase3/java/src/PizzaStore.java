@@ -402,7 +402,7 @@ public class PizzaStore {
             return null;
          }
       }
-      catch {
+      catch (Exception e) {
          System.err.println("Error - Unable to log in");
          return null;
       }
