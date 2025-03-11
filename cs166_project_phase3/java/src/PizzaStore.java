@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
+import java.util.Scanner;
 
 /**
  * This class defines a simple embedded SQL utility class that is designed to
@@ -354,6 +355,25 @@ public class PizzaStore {
     * Creates a new user
     **/
    public static void CreateUser(PizzaStore esql){
+      try {
+         Scanner scanner = new Scanner(System.in);
+         System.out.println("Enter username: ");
+         String username = scanner.nextLine();
+        
+         System.out.println("Enter password: ");
+         String password = scanner.nextLine();
+        
+         System.out.println("Enter phone number: ");
+         String phoneNum = scanner.nextLine();
+
+         String query = "INSERT INTO users (username, password, phoneNum, role, favoriteItem) VALUES ('" + username + "', '" + password + "', '" + phoneNum + "', 'customer', NULL);";
+      
+         esql.executeUpdate(query);
+         System.out.println("User created successfully!");
+
+      } catch (Exception e) {
+         System.err.println("Error - Unable to create user");
+      }
    }//end CreateUser
 
 
@@ -362,7 +382,30 @@ public class PizzaStore {
     * @return User login or null is the user does not exist
     **/
    public static String LogIn(PizzaStore esql){
-      return null;
+      try {
+         Scanner scanner = new Scanner(System.in);
+
+         System.out.println("Enter username: ");
+         String username = scanner.nextLine();
+
+         System.out.println("Enter password: ");
+         String password = scanner.nextLine();
+
+         String query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';";
+         int userCount = esql.executeQuery(query);
+
+         if (userCount == 1) {
+            System.out.println("Logged in successfully!");
+            return username;
+         } else {
+            System.out.println("Invalid username or password");
+            return null;
+         }
+      }
+      catch {
+         System.err.println("Error - Unable to log in");
+         return null;
+      }
    }//end
 
 // Rest of the functions definition go in here
