@@ -578,6 +578,7 @@ public class PizzaStore {
             System.out.println("Would you like to filter by price or type?");
             System.out.println("1. Price");
             System.out.println("2. Type");
+            System.out.println("3. Both");
             int filterChoice = scanner.nextInt();
             scanner.nextLine();
 
@@ -612,30 +613,19 @@ public class PizzaStore {
                }
             }
 
-            /*System.out.println("Would you like to sort by highest to lowest price or lowest to highest price?");
-               System.out.println("1. Highest to lowest");
-               System.out.println("2. Lowest to highest");
-               System.out.println("3. Neither");
-               int sortChoice = scanner.nextInt();
-               scanner.nextLine();*/
-
-
-            /*if (sortChoice == 1) {
-                  filterTypeQuery = "SELECT * FROM Items WHERE typeOfItem = '" + itemType + "' ORDER BY price DESC;";
-               }
-               else if (sortChoice == 2) {
-                  filterTypeQuery = "SELECT * FROM Items WHERE typeOfItem = '" + itemType + "' ORDER BY price ASC;";
-               }*/
-
-
-            /*else if (filterChoice == 2) {
-               System.out.println("Enter type of item: ");
-               String itemType = scanner.nextLine();
-               itemType = itemType.trim();
-               String filterTypeQuery = "SELECT * FROM Items WHERE typeOfItem = '" + itemType + "';";
-               
-               System.out.println(filterTypeQuery);
-               List<List<String>> filteredResult = esql.executeQueryAndReturnResult(filterTypeQuery);
+            else if (filterChoice == 2) {
+            System.out.println("Enter type of item: ");
+            String itemType = scanner.nextLine().trim();
+            System.out.println("Would you like to sort by highest to lowest price or lowest to highest price?");
+            System.out.println("1. Highest to lowest");
+            System.out.println("2. Lowest to highest");
+            System.out.println("3. Neither");
+            int sortChoice = scanner.nextInt();
+            scanner.nextLine();
+            String filterTypeQuery = "SELECT * FROM Items WHERE LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "'));";
+            if (sortChoice == 1) filterTypeQuery = "SELECT * FROM Items WHERE LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price DESC;";
+            else if (sortChoice == 2) filterTypeQuery = "SELECT * FROM Items WHERE LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price ASC;";
+            List<List<String>> filteredResult = esql.executeQueryAndReturnResult(filterTypeQuery);
 
                if (filteredResult.isEmpty()) {
                   System.out.println("No items found within that type");
@@ -650,20 +640,22 @@ public class PizzaStore {
                   System.out.println("Description: " + filteredResult.get(i).get(4));
                   System.out.println("-------------------------------------------------");
                }
-            }*/
+           }
 
-            else if (filterChoice == 2) {
+           else if (filterChoice == 3) {
             System.out.println("Enter type of item: ");
             String itemType = scanner.nextLine().trim();
+            System.out.println("Enter maximum price: ");
+            int maxPrice = scanner.nextInt();
             System.out.println("Would you like to sort by highest to lowest price or lowest to highest price?");
             System.out.println("1. Highest to lowest");
             System.out.println("2. Lowest to highest");
             System.out.println("3. Neither");
             int sortChoice = scanner.nextInt();
             scanner.nextLine();
-            String filterTypeQuery = "SELECT * FROM Items WHERE LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "'));";
-            if (sortChoice == 1) filterTypeQuery = "SELECT * FROM Items WHERE LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price DESC;";
-            else if (sortChoice == 2) filterTypeQuery = "SELECT * FROM Items WHERE LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price ASC;";
+            String filterTypeQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + " AND LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "'));";
+            if (sortChoice == 1) filterTypeQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + " AND LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price DESC;";
+            else if (sortChoice == 2) filterTypeQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + " AND LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price ASC;";
             List<List<String>> filteredResult = esql.executeQueryAndReturnResult(filterTypeQuery);
 
             if (filteredResult.isEmpty()) {
