@@ -551,15 +551,161 @@ public class PizzaStore {
       }
    }
 
-   
-   public static void viewMenu(PizzaStore esql) {}
+   public static void viewMenu(PizzaStore esql) {
+      try {
+         String query = "SELECT * FROM Items;";
+         List<List<String>> result = esql.executeQueryAndReturnResult(query);
+
+         if (result.isEmpty()) {
+            System.out.println("Menu is empty");
+            return;
+         }
+
+         for (int i = 0; i < result.size(); i++) {
+            System.out.println("Item: " + result.get(i).get(0));
+            System.out.println("Ingredients: " + result.get(i).get(1));
+            System.out.println("Type of Item: " + result.get(i).get(2));
+            System.out.println("Price: " + result.get(i).get(3));
+            System.out.println("Description: " + result.get(i).get(4));
+            System.out.println("-------------------------------------------------");
+         }
+
+         System.out.println("Would you like to filter your search? (Y/N)");
+         Scanner scanner = new Scanner(System.in);
+
+         String choice = scanner.nextLine();
+         if (choice.equalsIgnoreCase("Y")) {
+            System.out.println("Would you like to filter by price or type?");
+            System.out.println("1. Price");
+            System.out.println("2. Type");
+            int filterChoice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (filterChoice == 1) {
+               System.out.println("Enter maximum price: ");
+               int maxPrice = scanner.nextInt();
+               scanner.nextLine();
+               System.out.println("Would you like to sort by highest to lowest price or lowest to highest price?");
+               System.out.println("1. Highest to lowest");
+               System.out.println("2. Lowest to highest");
+               System.out.println("3. Neither");
+               int sortChoice = scanner.nextInt();
+               scanner.nextLine();
+               String filterPriceQuery = "";
+               if (sortChoice == 1) filterPriceQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + " ORDER BY price DESC;";
+               else if (sortChoice == 2) filterPriceQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + " ORDER BY price ASC;";
+               else filterPriceQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + ";";
+               List<List<String>> filteredResult = esql.executeQueryAndReturnResult(filterPriceQuery);
+
+               if (filteredResult.isEmpty()) {
+                  System.out.println("No items found within that price range");
+                  return;
+               }
+
+               for (int i = 0; i < filteredResult.size(); i++) {
+                  System.out.println("Item: " + filteredResult.get(i).get(0));
+                  System.out.println("Ingredients: " + filteredResult.get(i).get(1));
+                  System.out.println("Type of Item: " + filteredResult.get(i).get(2));
+                  System.out.println("Price: " + filteredResult.get(i).get(3));
+                  System.out.println("Description: " + filteredResult.get(i).get(4));
+                  System.out.println("-------------------------------------------------");
+               }
+            }
+
+            /*System.out.println("Would you like to sort by highest to lowest price or lowest to highest price?");
+               System.out.println("1. Highest to lowest");
+               System.out.println("2. Lowest to highest");
+               System.out.println("3. Neither");
+               int sortChoice = scanner.nextInt();
+               scanner.nextLine();*/
+
+
+            /*if (sortChoice == 1) {
+                  filterTypeQuery = "SELECT * FROM Items WHERE typeOfItem = '" + itemType + "' ORDER BY price DESC;";
+               }
+               else if (sortChoice == 2) {
+                  filterTypeQuery = "SELECT * FROM Items WHERE typeOfItem = '" + itemType + "' ORDER BY price ASC;";
+               }*/
+
+
+            /*else if (filterChoice == 2) {
+               System.out.println("Enter type of item: ");
+               String itemType = scanner.nextLine();
+               itemType = itemType.trim();
+               String filterTypeQuery = "SELECT * FROM Items WHERE typeOfItem = '" + itemType + "';";
+               
+               System.out.println(filterTypeQuery);
+               List<List<String>> filteredResult = esql.executeQueryAndReturnResult(filterTypeQuery);
+
+               if (filteredResult.isEmpty()) {
+                  System.out.println("No items found within that type");
+                  return;
+               }
+
+               for (int i = 0; i < filteredResult.size(); i++) {
+                  System.out.println("Item: " + filteredResult.get(i).get(0));
+                  System.out.println("Ingredients: " + filteredResult.get(i).get(1));
+                  System.out.println("Type of Item: " + filteredResult.get(i).get(2));
+                  System.out.println("Price: " + filteredResult.get(i).get(3));
+                  System.out.println("Description: " + filteredResult.get(i).get(4));
+                  System.out.println("-------------------------------------------------");
+               }
+            }*/
+
+            else if (filterChoice == 2) {
+            System.out.println("Enter type of item: ");
+            String itemType = scanner.nextLine().trim();
+            System.out.println("Would you like to sort by highest to lowest price or lowest to highest price?");
+            System.out.println("1. Highest to lowest");
+            System.out.println("2. Lowest to highest");
+            System.out.println("3. Neither");
+            int sortChoice = scanner.nextInt();
+            scanner.nextLine();
+            String filterTypeQuery = "SELECT * FROM Items WHERE LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "'));";
+            if (sortChoice == 1) filterTypeQuery = "SELECT * FROM Items WHERE LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price DESC;";
+            else if (sortChoice == 2) filterTypeQuery = "SELECT * FROM Items WHERE LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price ASC;";
+            List<List<String>> filteredResult = esql.executeQueryAndReturnResult(filterTypeQuery);
+
+            if (filteredResult.isEmpty()) {
+               System.out.println("No items found within that type");
+               return;
+            }
+
+            for (int i = 0; i < filteredResult.size(); i++) {
+               System.out.println("Item: " + filteredResult.get(i).get(0));
+               System.out.println("Ingredients: " + filteredResult.get(i).get(1));
+               System.out.println("Type of Item: " + filteredResult.get(i).get(2));
+               System.out.println("Price: " + filteredResult.get(i).get(3));
+               System.out.println("Description: " + filteredResult.get(i).get(4));
+               System.out.println("-------------------------------------------------");
+            }
+         }
+
+            else {
+               System.out.println("Invalid choice");
+            }
+         }
+      }
+
+      catch (Exception e) {
+         System.out.println("Error: Unable to view menu.");
+      }
+   }
+
    public static void placeOrder(PizzaStore esql) {}
+
    public static void viewAllOrders(PizzaStore esql) {}
+
    public static void viewRecentOrders(PizzaStore esql) {}
+
    public static void viewOrderInfo(PizzaStore esql) {}
+
    public static void viewStores(PizzaStore esql) {}
+
    public static void updateOrderStatus(PizzaStore esql) {}
+
    public static void updateMenu(PizzaStore esql) {}
+
    public static void updateUser(PizzaStore esql) {}
 
 
