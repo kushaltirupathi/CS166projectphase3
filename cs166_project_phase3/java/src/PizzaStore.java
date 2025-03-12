@@ -642,35 +642,35 @@ public class PizzaStore {
                }
            }
 
-           else if (filterChoice == 3) {
-            System.out.println("Enter type of item: ");
-            String itemType = scanner.nextLine().trim();
-            System.out.println("Enter maximum price: ");
-            int maxPrice = scanner.nextInt();
-            System.out.println("Would you like to sort by highest to lowest price or lowest to highest price?");
-            System.out.println("1. Highest to lowest");
-            System.out.println("2. Lowest to highest");
-            System.out.println("3. Neither");
-            int sortChoice = scanner.nextInt();
-            scanner.nextLine();
-            String filterTypeQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + " AND LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "'));";
-            if (sortChoice == 1) filterTypeQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + " AND LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price DESC;";
-            else if (sortChoice == 2) filterTypeQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + " AND LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price ASC;";
-            List<List<String>> filteredResult = esql.executeQueryAndReturnResult(filterTypeQuery);
+            else if (filterChoice == 3) {
+               System.out.println("Enter type of item: ");
+               String itemType = scanner.nextLine().trim();
+               System.out.println("Enter maximum price: ");
+               int maxPrice = scanner.nextInt();
+               System.out.println("Would you like to sort by highest to lowest price or lowest to highest price?");
+               System.out.println("1. Highest to lowest");
+               System.out.println("2. Lowest to highest");
+               System.out.println("3. Neither");
+               int sortChoice = scanner.nextInt();
+               scanner.nextLine();
+               String filterTypeQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + " AND LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "'));";
+               if (sortChoice == 1) filterTypeQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + " AND LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price DESC;";
+               else if (sortChoice == 2) filterTypeQuery = "SELECT * FROM Items WHERE price <= " + maxPrice + " AND LOWER(TRIM(typeOfItem)) = LOWER(TRIM('" + itemType + "')) ORDER BY price ASC;";
+               List<List<String>> filteredResult = esql.executeQueryAndReturnResult(filterTypeQuery);
 
-            if (filteredResult.isEmpty()) {
-               System.out.println("No items found within that type");
-               return;
-            }
+               if (filteredResult.isEmpty()) {
+                  System.out.println("No items found within that type");
+                  return;
+               }
 
-            for (int i = 0; i < filteredResult.size(); i++) {
-               System.out.println("Item: " + filteredResult.get(i).get(0));
-               System.out.println("Ingredients: " + filteredResult.get(i).get(1));
-               System.out.println("Type of Item: " + filteredResult.get(i).get(2));
-               System.out.println("Price: " + filteredResult.get(i).get(3));
-               System.out.println("Description: " + filteredResult.get(i).get(4));
-               System.out.println("-------------------------------------------------");
-            }
+               for (int i = 0; i < filteredResult.size(); i++) {
+                  System.out.println("Item: " + filteredResult.get(i).get(0));
+                  System.out.println("Ingredients: " + filteredResult.get(i).get(1));
+                  System.out.println("Type of Item: " + filteredResult.get(i).get(2));
+                  System.out.println("Price: " + filteredResult.get(i).get(3));
+                  System.out.println("Description: " + filteredResult.get(i).get(4));
+                  System.out.println("-------------------------------------------------");
+               }
          }
 
             else {
