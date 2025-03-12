@@ -434,7 +434,122 @@ public class PizzaStore {
          System.out.println("Error: Unable to retrieve profile.");
       }
    }
-   public static void updateProfile(PizzaStore esql) {}
+   
+   public static void updateProfile(PizzaStore esql) {
+      try {
+         Scanner scanner = new Scanner(System.in);
+         boolean manager = false; 
+
+         System.out.println("Enter login: ");
+         String login = scanner.nextLine();
+
+         String managerQuery = "SELECT role FROM users WHERE login = '" + login + "';";
+         List<List<String>> managerResult = esql.executeQueryAndReturnResult(managerQuery);
+
+         if (!managerResult.isEmpty() && managerResult.get(0).size() > 0) {
+            String result = managerResult.get(0).get(0).trim();
+            if (result.equalsIgnoreCase("manager")) {  
+               manager = true;
+            }
+         }
+
+         if (manager == true) {
+            System.out.println("Enter login to be updated: ");
+            String userToBeUpdated = scanner.nextLine();
+
+            System.out.println("What would you like to update?");
+            System.out.println("1. Phone Number");
+            System.out.println("2. Password");
+            System.out.println("3. Favorite Items");  
+            System.out.println("4. Login");
+            System.out.println("5. Role");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+               case 1:
+                  System.out.println("Enter new phone number: ");
+                  String newPhoneNum = scanner.nextLine();
+                  String updatePhoneNumQuery = "UPDATE users SET phoneNum = '" + newPhoneNum + "' WHERE login = '" + userToBeUpdated + "';";
+                  esql.executeUpdate(updatePhoneNumQuery);
+                  break;
+
+               case 2:
+                  System.out.println("Enter new password: ");
+                  String newPassword = scanner.nextLine();
+                  String updatePasswordQuery = "UPDATE users SET password = '" + newPassword + "' WHERE login = '" + userToBeUpdated + "';";
+                  esql.executeUpdate(updatePasswordQuery);
+                  break;
+
+               case 3:
+                  System.out.println("Enter new favorite items: ");
+                  String newFavoriteItems = scanner.nextLine();
+                  String updateFavoriteItemsQuery = "UPDATE users SET favoriteItems = '" + newFavoriteItems + "' WHERE login = '" + userToBeUpdated + "';";
+                  esql.executeUpdate(updateFavoriteItemsQuery);
+                  break;
+
+               case 4:
+                  System.out.println("Enter new login: ");
+                  String newLogin = scanner.nextLine();
+                  String updateLoginQuery = "UPDATE users SET login = '" + newLogin + "' WHERE login = '" + userToBeUpdated + "';";
+                  esql.executeUpdate(updateLoginQuery);
+                  break;
+
+               case 5:
+                  System.out.println("Enter new role: ");
+                  String newRole = scanner.nextLine();
+                  String updateRoleQuery = "UPDATE users SET role = '" + newRole + "' WHERE login = '" + userToBeUpdated + "';";
+                  esql.executeUpdate(updateRoleQuery);
+                  break;
+
+               default:
+                  System.out.println("Invalid choice");
+                  break;
+            }
+
+         }
+
+         else {
+            System.out.println("What would you like to update?");
+            System.out.println("1. Phone Number");
+            System.out.println("2. Password");
+            System.out.println("3. Favorite Items");  
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+               case 1:
+                  System.out.println("Enter new phone number: ");
+                  String newPhoneNum = scanner.nextLine();
+                  String updatePhoneNumQuery = "UPDATE users SET phoneNum = '" + newPhoneNum + "' WHERE login = '" + login + "';";
+                  esql.executeUpdate(updatePhoneNumQuery);
+                  break;
+
+               case 2:
+                  System.out.println("Enter new password: ");
+                  String newPassword = scanner.nextLine();
+                  String updatePasswordQuery = "UPDATE users SET password = '" + newPassword + "' WHERE login = '" + login + "';";
+                  esql.executeUpdate(updatePasswordQuery);
+                  break;
+
+               case 3:
+                  System.out.println("Enter new favorite items: ");
+                  String newFavoriteItems = scanner.nextLine();
+                  String updateFavoriteItemsQuery = "UPDATE users SET favoriteItems = '" + newFavoriteItems + "' WHERE login = '" + login + "';";
+                  esql.executeUpdate(updateFavoriteItemsQuery);
+                  break;
+               default:
+                  System.out.println("Invalid choice");
+                  break;
+            }
+         }
+      }
+
+      catch (Exception e) {
+         System.out.println("Error: Unable to update profile.");
+      }
+   }
    public static void viewMenu(PizzaStore esql) {}
    public static void placeOrder(PizzaStore esql) {}
    public static void viewAllOrders(PizzaStore esql) {}
