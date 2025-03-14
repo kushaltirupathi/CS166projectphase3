@@ -683,21 +683,17 @@ public class PizzaStore {
             quantities.add(quantity);
          }
 
-         // If user didn't order anything, just return
          if (itemNames.isEmpty()) {
             System.out.println("No items were ordered. Returning to main menu.");
             return;
          }
 
-         // 4. Display total to user
          System.out.println("Your total is: $" + totalPrice);
 
-         // 5. Generate a new unique orderID by finding the max and adding 1
          String maxOrderQuery = "SELECT MAX(orderID) FROM FoodOrder;";
          List<List<String>> maxOrderResult = esql.executeQueryAndReturnResult(maxOrderQuery);
          int newOrderID = 0;
          if (maxOrderResult.isEmpty() || maxOrderResult.get(0).get(0) == null) {
-            // If table is empty or MAX returned null, start from 10000 (arbitrary)
             newOrderID = 10000;
          } 
          else {
