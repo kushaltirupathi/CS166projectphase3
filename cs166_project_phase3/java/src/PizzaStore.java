@@ -294,7 +294,7 @@ public class PizzaStore {
                 System.out.println(".........................");
                 System.out.println("20. Log out");
                 
-                if (role) {
+                if (manager) {
                 switch (readChoice()){
                    case 1: viewProfile(esql, authorisedUser); break;
                    case 2: updateProfile(esql, authorisedUser); break;
@@ -305,11 +305,13 @@ public class PizzaStore {
                    case 7: viewOrderInfo(esql, authorisedUser); break;
                    case 8: viewStores(esql); break;
                    case 9: updateOrderStatus(esql, authorisedUser); break;
+                   case 10: updateMenu(esql, authorisedUser); break;
+                   case 11: updateUser(esql, authorisedUser); break;
                    case 20: usermenu = false; break;
                    default : System.out.println("Unrecognized choice!"); break;
                 }
                 }
-                else if (manager) {
+                else if (role) {
                 switch (readChoice()) {
                   case 1: viewProfile(esql, authorisedUser); break;
                   case 2: updateProfile(esql, authorisedUser); break;
@@ -320,8 +322,6 @@ public class PizzaStore {
                   case 7: viewOrderInfo(esql, authorisedUser); break;
                   case 8: viewStores(esql); break;
                   case 9: updateOrderStatus(esql, authorisedUser); break;
-                  case 10: updateMenu(esql, authorisedUser); break;
-                  case 11: updateUser(esql, authorisedUser); break;
                   case 20: usermenu = false; break;
                   default : System.out.println("Unrecognized choice!"); break;
                 }
