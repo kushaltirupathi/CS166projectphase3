@@ -652,7 +652,14 @@ public class PizzaStore {
          System.out.println("Enter the ID of the store you want to order from:");
          int storeID = Integer.parseInt(scanner.nextLine().trim());
 
-         // 3. Collect items to order
+         String query = "SELECT isOpen FROM store WHERE storeID = " + storeID + ";";
+         List<List<String>> result = esql.executeQueryAndReturnResult(query);
+
+         if (result.get(0).get(0).equals("no")) {
+            System.out.println("Store is closed. Please try again later.");
+            return;
+         }
+
          List<String> itemNames = new ArrayList<>();
          List<Integer> quantities = new ArrayList<>();
          double totalPrice = 0.0;
