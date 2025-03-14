@@ -362,7 +362,7 @@ public class PizzaStore {
    public static void Greeting(){
       System.out.println(
          "\n\n*******************************************************\n" +
-         "              User Interface      	               \n" +
+         "                     User Interface      	           \n" +
          "*******************************************************\n");
    }//end Greeting
 
@@ -763,7 +763,7 @@ public class PizzaStore {
                System.out.println("No orders found");
                return;
             }
-
+            System.out.println("==================== ORDER HISTORY ====================");
             for (int i = 0; i < result.size(); i++) {
                System.out.println("Order ID: " + result.get(i).get(0));
                System.out.println("Username: " + result.get(i).get(1));
@@ -782,7 +782,7 @@ public class PizzaStore {
                System.out.println("No orders found");
                return;
             }
-
+            System.out.println("==================== ORDER HISTORY ====================");
             for (int i = 0; i < result.size(); i++) {
                System.out.println("Order ID: " + result.get(i).get(0));
                System.out.println("Username: " + result.get(i).get(1));
@@ -792,8 +792,6 @@ public class PizzaStore {
                System.out.println("-------------------------------------------------");
             }
          }
-
-         String query = "SELECT * FROM FoodOrder WHERE login = '" + login + "';";
       }
          
       catch (Exception e) {
@@ -813,6 +811,7 @@ public class PizzaStore {
             return;
          }
 
+         System.out.println("==================== RECENT ORDERS ====================");
          for (int i = 0; i < result.size(); i++) {
             System.out.println("Order ID: " + result.get(i).get(0));
             System.out.println("User: " + result.get(i).get(1));
@@ -866,7 +865,7 @@ public class PizzaStore {
          }
 
       
-         System.out.println("============ Order Details ============");
+         System.out.println("================== ORDER DETAILS ==================");
          System.out.println("Order ID: " + orderResult.get(0).get(0));
          System.out.println("Customer: " + orderOwner);
          System.out.println("Store ID: " + orderResult.get(0).get(2));
